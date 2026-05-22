@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "question": "We asked 100 people: Name a fruit they eat for breakfast.",
+    "options": [
+      { "text": "Banana", "points": 40, "is_correct": true },
+      { "text": "Apple", "points": 30, "is_correct": true },
+      { "text": "Orange", "points": 20, "is_correct": true },
+      { "text": "Berries", "points": 10, "is_correct": true },
+      { "text": "Melon", "points": 5, "is_correct": true },
+      { "text": "Mango", "points": 0, "is_correct": false },
+      { "text": "Pineapple", "points": 0, "is_correct": false },
+      { "text": "Kiwi", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "We asked 100 people: Name a reason someone might be late to work.",
+    "options": [
+      { "text": "Traffic", "points": 40, "is_correct": true },
+      { "text": "Overslept", "points": 30, "is_correct": true },
+      { "text": "Car trouble", "points": 20, "is_correct": true },
+      { "text": "Kids", "points": 10, "is_correct": true },
+      { "text": "Bad weather", "points": 5, "is_correct": true },
+      { "text": "Dentist visit", "points": 0, "is_correct": false },
+      { "text": "Power outage", "points": 0, "is_correct": false },
+      { "text": "Lost wallet", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 3,
+    "question": "We asked 100 people: Name something you always forget to pack when traveling.",
+    "options": [
+      { "text": "Charger", "points": 40, "is_correct": true },
+      { "text": "Toothbrush", "points": 30, "is_correct": true },
+      { "text": "Medication", "points": 20, "is_correct": true },
+      { "text": "Socks", "points": 10, "is_correct": true },
+      { "text": "Headphones", "points": 5, "is_correct": true },
+      { "text": "Travel pillow", "points": 0, "is_correct": false },
+      { "text": "Hair dryer", "points": 0, "is_correct": false },
+      { "text": "Jacket", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 4,
+    "question": "We asked 100 people: Name a topping people put on pizza.",
+    "options": [
+      { "text": "Pepperoni", "points": 40, "is_correct": true },
+      { "text": "Mushrooms", "points": 30, "is_correct": true },
+      { "text": "Extra cheese", "points": 20, "is_correct": true },
+      { "text": "Onions", "points": 10, "is_correct": true },
+      { "text": "Bell peppers", "points": 5, "is_correct": true },
+      { "text": "Pineapple", "points": 0, "is_correct": false },
+      { "text": "Anchovies", "points": 0, "is_correct": false },
+      { "text": "Jalapeños", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 5,
+    "question": "We asked 100 people: Name something people do first thing in the morning.",
+    "options": [
+      { "text": "Check their phone", "points": 40, "is_correct": true },
+      { "text": "Brush their teeth", "points": 30, "is_correct": true },
+      { "text": "Make coffee", "points": 20, "is_correct": true },
+      { "text": "Take a shower", "points": 10, "is_correct": true },
+      { "text": "Eat breakfast", "points": 5, "is_correct": true },
+      { "text": "Exercise", "points": 0, "is_correct": false },
+      { "text": "Meditate", "points": 0, "is_correct": false },
+      { "text": "Read the news", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 6,
+    "question": "We asked 100 people: Name a popular birthday cake flavor.",
+    "options": [
+      { "text": "Chocolate", "points": 40, "is_correct": true },
+      { "text": "Vanilla", "points": 30, "is_correct": true },
+      { "text": "Red velvet", "points": 20, "is_correct": true },
+      { "text": "Lemon", "points": 10, "is_correct": true },
+      { "text": "Carrot", "points": 5, "is_correct": true },
+      { "text": "Pistachio", "points": 0, "is_correct": false },
+      { "text": "Coffee", "points": 0, "is_correct": false },
+      { "text": "Lavender", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 7,
+    "question": "We asked 100 people: Name a reason someone calls in sick when they aren't.",
+    "options": [
+      { "text": "Needed a mental health day", "points": 40, "is_correct": true },
+      { "text": "Just too tired", "points": 30, "is_correct": true },
+      { "text": "Hangover", "points": 20, "is_correct": true },
+      { "text": "Wanted to watch a game", "points": 10, "is_correct": true },
+      { "text": "Beautiful weather outside", "points": 5, "is_correct": true },
+      { "text": "Pet needed attention", "points": 0, "is_correct": false },
+      { "text": "Had a date", "points": 0, "is_correct": false },
+      { "text": "Forgot to set an alarm", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 8,
+    "question": "We asked 100 people: Name something people always buy too much of at the grocery store.",
+    "options": [
+      { "text": "Bread", "points": 40, "is_correct": true },
+      { "text": "Milk", "points": 30, "is_correct": true },
+      { "text": "Snacks", "points": 20, "is_correct": true },
+      { "text": "Fresh produce", "points": 10, "is_correct": true },
+      { "text": "Frozen food", "points": 5, "is_correct": true },
+      { "text": "Toothpaste", "points": 0, "is_correct": false },
+      { "text": "Cleaning supplies", "points": 0, "is_correct": false },
+      { "text": "Batteries", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 9,
+    "question": "We asked 100 people: Name a place people go on a first date.",
+    "options": [
+      { "text": "Restaurant", "points": 40, "is_correct": true },
+      { "text": "Coffee shop", "points": 30, "is_correct": true },
+      { "text": "Movies", "points": 20, "is_correct": true },
+      { "text": "Park", "points": 10, "is_correct": true },
+      { "text": "Bar", "points": 5, "is_correct": true },
+      { "text": "Museum", "points": 0, "is_correct": false },
+      { "text": "Bowling alley", "points": 0, "is_correct": false },
+      { "text": "Mini golf", "points": 0, "is_correct": false }
+    ]
+  },
+  {
+    "id": 10,
+    "question": "We asked 100 people: Name something you'd find in a junk drawer.",
+    "options": [
+      { "text": "Batteries", "points": 40, "is_correct": true },
+      { "text": "Old keys", "points": 30, "is_correct": true },
+      { "text": "Rubber bands", "points": 20, "is_correct": true },
+      { "text": "Takeout menus", "points": 10, "is_correct": true },
+      { "text": "Tape", "points": 5, "is_correct": true },
+      { "text": "Playing cards", "points": 0, "is_correct": false },
+      { "text": "Scissors", "points": 0, "is_correct": false },
+      { "text": "Pens", "points": 0, "is_correct": false }
+    ]
+  }
+]
