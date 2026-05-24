@@ -11,6 +11,8 @@ import {
   setFMStake,
   resetFMBalance,
   resetFMRounds,
+  setSpinSnapshot,
+  getAndClearSpinSnapshot,
 } from "@/lib/coins";
 import { gameUrlWithReturn } from "@/lib/routes";
 
@@ -31,12 +33,12 @@ interface Segment {
 }
 
 const RAW_SEGMENTS = [
-  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.50, href: "" },
+  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.55, href: "" },
   { id: "match",  label: "Match & Win",  shortLabel: "MATCH",  emoji: "🎯", color: "#60a5fa", labelColor: "#0c1a2e", probability: 0.15, href: "/match-and-win" },
-  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.15, href: "/survey-steal" },
-  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.10, href: "/survey-says" },
-  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.07, href: "/sudden-death" },
-  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.03, href: "" },
+  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.07, href: "/survey-steal" },
+  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.08, href: "/survey-says" },
+  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.08, href: "/sudden-death" },
+  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.07, href: "" },
 ];
 
 // Visual angles are equal for all segments — probabilities only affect the random pick
@@ -77,6 +79,11 @@ function slicePath(startAngle: number, sweepAngle: number): string {
 // ─── Weighted random pick ─────────────────────────────────────────────────────
 
 function pickSegment(): Segment {
+  // 50% bucket: guaranteed Coins
+  if (Math.random() < 0.5) {
+    return SEGMENTS.find((s) => s.id === "coins")!;
+  }
+  // 50% bucket: weighted RNG across all segments
   let r = Math.random();
   for (const seg of SEGMENTS) {
     r -= seg.probability;
@@ -89,6 +96,50 @@ function rollCoins() { return Math.floor(Math.random() * 46) + 5; }
 function rollChance() { return Math.floor(Math.random() * 501) + 500; }
 
 const FM_ROUNDS_GOAL = 5;
+const SPIN_ROUNDS_SNAP = "feud_spin_rounds_snap";
+
+function setSpinRoundsSnapshot(): void {
+  if (typeof window === "undefined") return;
+  sessionStorage.setItem(SPIN_ROUNDS_SNAP, String(getFMRounds()));
+}
+
+function getAndClearSpinRoundsSnapshot(): number | null {
+  if (typeof window === "undefined") return null;
+  const raw = sessionStorage.getItem(SPIN_ROUNDS_SNAP);
+  sessionStorage.removeItem(SPIN_ROUNDS_SNAP);
+  if (raw === null) return null;
+  const n = parseInt(raw, 10);
+  return Number.isNaN(n) ? null : n;
+}
+
+interface RoundWonSpark {
+  id: number;
+  dx: number;
+  dy: number;
+  size: number;
+  delay: number;
+  duration: number;
+  color: string;
+  kind: "dot" | "star";
+}
+
+function spawnRoundWonSparks(): RoundWonSpark[] {
+  const colors = ["#34d399", "#6ee7b7", "#a7f3d0", "#fbbf24", "#fde68a", "#ffffff"];
+  return Array.from({ length: 20 }, (_, i) => {
+    const angle = (Math.PI * 2 * i) / 20 + (Math.random() - 0.5) * 0.5;
+    const dist = 28 + Math.random() * 52;
+    return {
+      id: i,
+      dx: Math.cos(angle) * dist,
+      dy: Math.sin(angle) * dist * 0.75,
+      size: 3 + Math.random() * 7,
+      delay: Math.floor(Math.random() * 100),
+      duration: 700 + Math.floor(Math.random() * 350),
+      color: colors[Math.floor(Math.random() * colors.length)]!,
+      kind: Math.random() > 0.55 ? "star" : "dot",
+    };
+  });
+}
 
 // ─── Chance overlay ───────────────────────────────────────────────────────────
 
@@ -256,6 +307,17 @@ export default function Spin2Page() {
   const [showReveal, setShowReveal] = useState(false);
   const [chanceReward, setChanceReward] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const hudRef = useRef<HTMLDivElement>(null);
+  const fmRef = useRef<HTMLButtonElement>(null);
+  const nextParticleId = useRef(0);
+  const prevPermanentRef = useRef<number | null>(null);
+  const prevFMRef = useRef<number | null>(null);
+  const prevFMRoundsRef = useRef<number | null>(null);
+  const roundWonClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [particles, setParticles] = useState<Array<{ id: number; srcX: number; srcY: number; tx: number; ty: number; delay: number }>>([]);
+  const [hudBounce, setHudBounce] = useState(false);
+  const [fmBounce, setFMBounce] = useState(false);
+  const [roundWon, setRoundWon] = useState<{ count: number; sparks: RoundWonSpark[] } | null>(null);
 
   const refreshBalances = useCallback(() => {
     setPermanent(getPermanentBalance());
@@ -263,21 +325,118 @@ export default function Spin2Page() {
     setFMRoundsState(getFMRounds());
   }, []);
 
+  const triggerRoundWon = useCallback((count: number) => {
+    if (roundWonClearRef.current) clearTimeout(roundWonClearRef.current);
+    setRoundWon({ count, sparks: spawnRoundWonSparks() });
+    roundWonClearRef.current = setTimeout(() => {
+      setRoundWon(null);
+      roundWonClearRef.current = null;
+    }, 1800);
+  }, []);
+
+  const triggerCoinFly = useCallback((targets: "both" | "hud" = "both") => {
+    const hud = hudRef.current;
+    if (!hud) return;
+
+    const baseSrcX = window.innerWidth / 2;
+    const baseSrcY = window.innerHeight * 0.58;
+
+    const spawnToTarget = (destX: number, destY: number, count: number) =>
+      Array.from({ length: count }, (_, i) => {
+        const srcX = baseSrcX + (Math.random() - 0.5) * 50 - 10;
+        const srcY = baseSrcY + (Math.random() - 0.5) * 50 - 10;
+        return { id: nextParticleId.current++, srcX, srcY, tx: destX - srcX - 10, ty: destY - srcY - 10, delay: i * 55 };
+      });
+
+    const hudRect = hud.getBoundingClientRect();
+    const hudBatch = spawnToTarget(hudRect.left + hudRect.width / 2, hudRect.top + hudRect.height / 2, targets === "both" ? 5 : 9);
+
+    const fm = targets === "both" ? fmRef.current : null;
+    const fmRect = fm?.getBoundingClientRect();
+    const fmBatch = fmRect
+      ? spawnToTarget(fmRect.left + fmRect.width / 2, fmRect.top + fmRect.height / 2, 5)
+      : [];
+
+    const batch = [...hudBatch, ...fmBatch];
+    setParticles((prev) => [...prev, ...batch]);
+
+    const lastDelay = (Math.max(hudBatch.length, 1) - 1) * 55;
+    setTimeout(() => {
+      setHudBounce(true);
+      setTimeout(() => setHudBounce(false), 400);
+      if (fmBatch.length > 0) {
+        setFMBounce(true);
+        setTimeout(() => setFMBounce(false), 400);
+      }
+    }, lastDelay + 550);
+    setTimeout(() => {
+      const ids = new Set(batch.map((p) => p.id));
+      setParticles((prev) => prev.filter((p) => !ids.has(p.id)));
+    }, lastDelay + 950);
+  }, []);
+
+  const checkBalanceAndFly = useCallback(() => {
+    const newPermanent = getPermanentBalance();
+    const newFM = getFMBalance();
+    const newRounds = getFMRounds();
+    const prevPerm = prevPermanentRef.current;
+    const prevFM = prevFMRef.current;
+    const prevRounds = prevFMRoundsRef.current;
+    prevPermanentRef.current = newPermanent;
+    prevFMRef.current = newFM;
+    prevFMRoundsRef.current = newRounds;
+    setPermanent(newPermanent);
+    setFMBalanceState(newFM);
+    setFMRoundsState(newRounds);
+    if (prevRounds !== null && newRounds > prevRounds) {
+      triggerRoundWon(newRounds);
+    }
+    if (prevPerm !== null && newPermanent > prevPerm) {
+      // FM also grew → regular game win → dual fly; FM flat/down → FM win → HUD only
+      triggerCoinFly(prevFM !== null && newFM > prevFM ? "both" : "hud");
+    }
+  }, [triggerCoinFly, triggerRoundWon]);
+
   useEffect(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7583/ingest/3c7cd91c-4751-48a4-8c56-83b8f52b75f0',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'06c1e7'},body:JSON.stringify({sessionId:'06c1e7',hypothesisId:'A/D',location:'src/app/spin-2/page.tsx:useEffect',message:'Spin2 mounted',data:{url:window.location.href,search:window.location.search},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
+    // Check if returning from a game mode with new coins
+    const snapshot = getAndClearSpinSnapshot();
+    const roundsSnap = getAndClearSpinRoundsSnapshot();
+    const currentPerm = getPermanentBalance();
+    const currentFM = getFMBalance();
+    const currentRounds = getFMRounds();
+    prevPermanentRef.current = currentPerm;
+    prevFMRef.current = currentFM;
+    prevFMRoundsRef.current = currentRounds;
     refreshBalances();
+
+    const scheduleReturnFeedback = () => {
+      if (roundsSnap !== null && currentRounds > roundsSnap) {
+        triggerRoundWon(currentRounds);
+      }
+      if (snapshot && currentPerm > snapshot.perm) {
+        const fmAlsoGrew = currentFM > snapshot.fm;
+        triggerCoinFly(fmAlsoGrew ? "both" : "hud");
+      }
+    };
+
+    if (
+      (roundsSnap !== null && currentRounds > roundsSnap) ||
+      (snapshot && currentPerm > snapshot.perm)
+    ) {
+      setTimeout(scheduleReturnFeedback, 400);
+    }
+
     const onVisible = () => {
-      if (document.visibilityState === "visible") refreshBalances();
+      if (document.visibilityState === "visible") checkBalanceAndFly();
     };
     document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("focus", refreshBalances);
+    window.addEventListener("focus", checkBalanceAndFly);
     return () => {
       document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("focus", refreshBalances);
+      window.removeEventListener("focus", checkBalanceAndFly);
+      if (roundWonClearRef.current) clearTimeout(roundWonClearRef.current);
     };
-  }, [refreshBalances]);
+  }, [refreshBalances, checkBalanceAndFly, triggerCoinFly, triggerRoundWon]);
 
   const fmReady = fmRounds >= FM_ROUNDS_GOAL;
 
@@ -330,6 +489,7 @@ export default function Spin2Page() {
         addToWallets(computedReward);
         refreshBalances();
         showToast(`+${computedReward.toLocaleString()}`);
+        triggerCoinFly();
       } else if (seg.id === "chance" && computedReward !== null) {
         setChanceReward(computedReward);
       } else {
@@ -345,10 +505,13 @@ export default function Spin2Page() {
     refreshBalances();
     showToast(`+${chanceReward.toLocaleString()}`);
     setChanceReward(null);
+    triggerCoinFly();
   };
 
   const handleGo = () => {
     if (!result) return;
+    setSpinRoundsSnapshot();
+    setSpinSnapshot();
     router.push(gameUrlWithReturn(result.href));
   };
 
@@ -357,6 +520,8 @@ export default function Spin2Page() {
       showToast(`Win ${FM_ROUNDS_GOAL} trivia rounds to unlock Fast Money!`);
       return;
     }
+    setSpinRoundsSnapshot();
+    setSpinSnapshot();
     setFMStake(fmBalance);
     resetFMBalance();
     resetFMRounds();
@@ -406,14 +571,22 @@ export default function Spin2Page() {
           <span className="font-mono text-xs uppercase tracking-widest text-amber-400/60">
             Spin to Play
           </span>
-          <div className="w-12" />
+          {/* HUD coin display */}
+          <div
+            ref={hudRef}
+            className="flex items-center gap-1.5 rounded-full border border-amber-400/20 bg-amber-400/[0.06] px-2.5 py-1 transition-transform duration-150"
+            style={hudBounce ? { transform: "scale(1.3)" } : undefined}
+          >
+            <span className="text-xs leading-none">🪙</span>
+            <span className="font-mono text-xs font-black tabular-nums text-amber-400">{permanent.toLocaleString()}</span>
+          </div>
         </div>
 
-        {/* ── Wallets ── */}
-        <div className="relative mb-6 flex flex-col gap-2">
+        {/* ── Fast Money (primary wallet) ── */}
+        <div className="relative mb-5">
           {/* Toast */}
           <div
-            className="pointer-events-none absolute -right-1 -top-4 font-mono text-sm font-black text-emerald-400 transition-all duration-300"
+            className="pointer-events-none absolute -right-1 -top-5 font-mono text-sm font-black text-emerald-400 transition-all duration-300"
             style={{
               opacity: toast ? 1 : 0,
               transform: toast ? "translateY(-6px)" : "translateY(0px)",
@@ -422,72 +595,153 @@ export default function Spin2Page() {
             {toast}
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl border border-amber-400/15 bg-amber-400/[0.04] px-5 py-3">
-            <span className="text-lg">🏦</span>
-            <div className="flex-1 text-left">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-amber-400/40">Permanent</p>
-              <p className="font-mono text-base font-black tabular-nums text-amber-400">
-                {permanent.toLocaleString()}
-              </p>
-            </div>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400/20">coins</span>
-          </div>
-
           <button
+            ref={fmRef}
             onClick={handleWalletClick}
-            className="flex flex-col gap-2.5 rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] px-5 py-3 transition-all duration-200 hover:border-emerald-400/40 hover:bg-emerald-400/[0.09] active:scale-95"
+            className="relative w-full overflow-hidden rounded-2xl border px-5 py-4 text-left transition-all duration-200"
             style={{
-              boxShadow: fmReady
-                ? "0 0 28px rgba(52,211,153,0.2)"
-                : fmBalance > 0
-                  ? "0 0 24px rgba(52,211,153,0.08)"
-                  : "none",
+              borderColor: fmReady ? "rgba(52,211,153,0.5)" : "rgba(52,211,153,0.12)",
+              background: fmReady ? "rgba(52,211,153,0.09)" : "rgba(52,211,153,0.04)",
+              boxShadow: fmReady ? "0 0 40px rgba(52,211,153,0.18)" : "none",
+              ...(fmBounce ? { transform: "scale(1.03)" } : {}),
             }}
           >
-            <div className="flex w-full items-center gap-3">
-              <span className="text-lg">⚡</span>
-              <div className="flex-1 text-left">
-                <p
-                  className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${
-                    fmReady ? "text-emerald-400" : "text-emerald-400/50"
-                  }`}
-                >
-                  Fast Money{" "}
-                  {fmReady ? "· Unlocked · tap to play" : "· win trivia games"}
-                </p>
-                <p
-                  className={`mt-0.5 font-mono text-sm font-black tabular-nums transition-colors ${
-                    fmReady ? "text-emerald-400" : fmBalance > 0 ? "text-emerald-400/80" : "text-white/20"
-                  }`}
-                >
-                  {fmBalance.toLocaleString()} coins
-                </p>
+            {fmReady && (
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(52,211,153,0.12), transparent 70%)",
+                }}
+              />
+            )}
+
+            {roundWon && (
+              <div
+                className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-2xl"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 90% 80% at 50% 45%, rgba(6, 78, 59, 0.97) 0%, rgba(4, 24, 18, 0.94) 55%, rgba(0, 0, 0, 0.92) 100%)",
+                  boxShadow: "inset 0 0 60px rgba(52,211,153,0.15)",
+                  animation: "roundWonStamp 1.6s cubic-bezier(0.22, 1, 0.36, 1) both",
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {roundWon.sparks.map((s) =>
+                    s.kind === "dot" ? (
+                      <span
+                        key={s.id}
+                        className="absolute rounded-full"
+                        style={{
+                          left: "50%",
+                          top: "50%",
+                          width: s.size,
+                          height: s.size,
+                          backgroundColor: s.color,
+                          boxShadow: `0 0 ${s.size * 2}px ${s.color}`,
+                          "--dx": `${s.dx}px`,
+                          "--dy": `${s.dy}px`,
+                          animation: `roundWonSpark ${s.duration}ms ease-out ${s.delay}ms both`,
+                        } as React.CSSProperties}
+                      />
+                    ) : (
+                      <span
+                        key={s.id}
+                        className="absolute select-none leading-none"
+                        style={{
+                          left: "50%",
+                          top: "50%",
+                          fontSize: s.size + 6,
+                          color: s.color,
+                          textShadow: `0 0 8px ${s.color}`,
+                          "--dx": `${s.dx}px`,
+                          "--dy": `${s.dy}px`,
+                          animation: `roundWonSpark ${s.duration}ms ease-out ${s.delay}ms both`,
+                        } as React.CSSProperties}
+                      >
+                        ✦
+                      </span>
+                    )
+                  )}
+                </div>
+
+                <div className="relative z-10 flex h-full flex-col items-center justify-center px-4">
+                  <p
+                    className="text-center font-black uppercase leading-none tracking-wide"
+                    style={{
+                      fontFamily: "Impact, Arial Black, sans-serif",
+                      fontSize: "clamp(1.75rem, 7vw, 2.25rem)",
+                      color: "#34d399",
+                      textShadow:
+                        "0 0 24px rgba(52,211,153,0.9), 0 0 48px rgba(52,211,153,0.45), 0 2px 0 rgba(0,0,0,0.8)",
+                    }}
+                  >
+                    Round Won!
+                  </p>
+                  <p
+                    className="mt-2 font-mono text-sm font-bold uppercase tracking-[0.2em] text-emerald-300/90"
+                    style={{ textShadow: "0 0 12px rgba(52,211,153,0.5)" }}
+                  >
+                    {roundWon.count} / {FM_ROUNDS_GOAL}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/30">
-                Trivia Rounds
-              </p>
-              <div className="flex justify-center gap-2.5">
+            )}
+
+            <div className="relative">
+              {/* Header row */}
+              <div className="mb-3 flex items-start justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="flex h-9 w-9 items-center justify-center rounded-xl"
+                    style={{
+                      background: fmReady ? "rgba(52,211,153,0.2)" : "rgba(255,255,255,0.05)",
+                    }}
+                  >
+                    <span className="text-lg">⚡</span>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/50">
+                      Fast Money
+                    </p>
+                    <p
+                      className={`flex items-center gap-1.5 font-mono text-2xl font-black tabular-nums leading-none transition-colors ${
+                        fmReady
+                          ? "text-emerald-400"
+                          : fmBalance > 0
+                          ? "text-emerald-400/70"
+                          : "text-white/20"
+                      }`}
+                    >
+                      <span className="text-lg leading-none">🪙</span>
+                      {fmBalance.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+                {fmReady && (
+                  <span className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                    Tap to Play →
+                  </span>
+                )}
+              </div>
+
+              {/* Round pips */}
+              <div className="flex items-center gap-2">
                 {Array.from({ length: FM_ROUNDS_GOAL }).map((_, i) => (
                   <div
                     key={i}
-                    className="h-3 w-3 rounded-full transition-all duration-300"
+                    className="h-2 w-full rounded-full transition-all duration-300"
                     style={{
-                      backgroundColor: i < fmRounds ? "#34d399" : "rgba(255,255,255,0.1)",
-                      boxShadow: i < fmRounds ? "0 0 8px rgba(52,211,153,0.5)" : "none",
+                      backgroundColor: i < fmRounds ? "#34d399" : "rgba(255,255,255,0.08)",
+                      boxShadow: i < fmRounds ? "0 0 6px rgba(52,211,153,0.5)" : "none",
                     }}
                   />
                 ))}
               </div>
-              <p
-                className={`text-center font-mono text-[10px] tabular-nums transition-colors ${
-                  fmReady ? "text-emerald-400/70" : "text-white/25"
-                }`}
-              >
+              <p className="mt-1.5 font-mono text-[10px] text-white/20">
                 {fmReady
-                  ? "Fast Money unlocked"
-                  : `${Math.min(fmRounds, FM_ROUNDS_GOAL)} / ${FM_ROUNDS_GOAL} rounds`}
+                  ? "all rounds complete · ready to play!"
+                  : `${Math.min(fmRounds, FM_ROUNDS_GOAL)} / ${FM_ROUNDS_GOAL} trivia wins · keep spinning`}
               </p>
             </div>
           </button>
@@ -625,28 +879,52 @@ export default function Spin2Page() {
           </button>
         </div>
 
-        {/* ── Legend ── */}
-        <div className="mt-8 grid grid-cols-3 gap-2">
-          {SEGMENTS.map((seg) => (
-            <div
-              key={seg.id}
-              className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5"
-            >
-              <div
-                className="h-2 w-2 shrink-0 rounded-full"
-                style={{ backgroundColor: seg.color }}
-              />
-              <p className="min-w-0 truncate text-[10px] font-semibold text-white/50">
-                {seg.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-widest text-white/15">
+        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-widest text-white/15">
           prototype · spin version 2
         </p>
       </div>
+
+      {/* Flying coin particles */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="pointer-events-none fixed z-[9999] select-none"
+          style={{
+            left: p.srcX,
+            top: p.srcY,
+            fontSize: 18,
+            "--tx": `${p.tx}px`,
+            "--ty": `${p.ty}px`,
+            animationName: "coinFly",
+            animationDuration: "700ms",
+            animationDelay: `${p.delay}ms`,
+            animationTimingFunction: "ease-in",
+            animationFillMode: "both",
+          } as React.CSSProperties}
+        >
+          🪙
+        </div>
+      ))}
+
+      <style>{`
+        @keyframes coinFly {
+          0%   { transform: translate(0, 0) scale(1.4); opacity: 1; }
+          70%  { opacity: 1; }
+          100% { transform: translate(var(--tx), var(--ty)) scale(0.25); opacity: 0; }
+        }
+        @keyframes roundWonStamp {
+          0%   { opacity: 0; transform: scale(1.5); }
+          15%  { opacity: 1; transform: scale(0.95); }
+          25%  { opacity: 1; transform: scale(1); }
+          75%  { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1) translateY(-8px); }
+        }
+        @keyframes roundWonSpark {
+          0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+          12%  { opacity: 1; transform: translate(calc(-50% + var(--dx) * 0.12), calc(-50% + var(--dy) * 0.12)) scale(1.3); }
+          100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.15); }
+        }
+      `}</style>
     </main>
   );
 }

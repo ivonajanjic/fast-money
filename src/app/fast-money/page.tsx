@@ -333,10 +333,35 @@ export default function FastMoneyPage() {
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [goldFlash, setGoldFlash] = useState(false);
   const coinsAddedRef = useRef(false);
+  const nextParticleId = useRef(0);
+  const [particles, setParticles] = useState<Array<{ id: number; startX: number; startY: number; bx: number; by: number; delay: number }>>([]);
 
   const totalRevealed = answers.filter((a) => a.revealed).reduce((s, a) => s + a.points, 0);
   const allRevealed = answers.length === QUESTION_COUNT && answers.every((a) => a.revealed);
   const won = totalRevealed >= WIN_THRESHOLD;
+
+  const triggerBurst = useCallback(() => {
+    const cx = window.innerWidth / 2 - 10;
+    const cy = window.innerHeight / 2 - 10;
+    const count = 12;
+    const batch = Array.from({ length: count }, (_, i) => {
+      const angle = ((i / count) * 360 + Math.random() * 20) * (Math.PI / 180);
+      const dist = 80 + Math.random() * 90;
+      return {
+        id: nextParticleId.current++,
+        startX: cx,
+        startY: cy,
+        bx: Math.cos(angle) * dist,
+        by: Math.sin(angle) * dist,
+        delay: i * 35,
+      };
+    });
+    setParticles((prev) => [...prev, ...batch]);
+    setTimeout(() => {
+      const ids = new Set(batch.map((p) => p.id));
+      setParticles((prev) => prev.filter((p) => !ids.has(p.id)));
+    }, count * 35 + 900);
+  }, []);
 
   const initGame = useCallback(() => {
     resetFMRounds();
@@ -373,9 +398,12 @@ export default function FastMoneyPage() {
     if (phase === "done" && !coinsAddedRef.current) {
       coinsAddedRef.current = true;
       clearFMStake();
-      if (won) addToPermanent(stake);
+      if (won) {
+        addToPermanent(stake);
+        triggerBurst();
+      }
     }
-  }, [phase, won, stake]);
+  }, [phase, won, stake, triggerBurst]);
 
   const advanceQuestion = useCallback(
     (picked: Option | null) => {
@@ -467,6 +495,36 @@ export default function FastMoneyPage() {
           />
         )}
       </div>
+
+      {/* Coin burst particles */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="pointer-events-none fixed z-[9999] select-none"
+          style={{
+            left: p.startX,
+            top: p.startY,
+            fontSize: 20,
+            "--bx": `${p.bx}px`,
+            "--by": `${p.by}px`,
+            animationName: "coinBurst",
+            animationDuration: "800ms",
+            animationDelay: `${p.delay}ms`,
+            animationTimingFunction: "ease-out",
+            animationFillMode: "both",
+          } as React.CSSProperties}
+        >
+          🪙
+        </div>
+      ))}
+
+      <style>{`
+        @keyframes coinBurst {
+          0%   { transform: translate(0, 0) scale(1.5); opacity: 1; }
+          60%  { opacity: 1; }
+          100% { transform: translate(var(--bx), var(--by)) scale(0.3); opacity: 0; }
+        }
+      `}</style>
     </main>
   );
 }

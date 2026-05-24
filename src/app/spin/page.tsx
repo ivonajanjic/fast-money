@@ -9,6 +9,8 @@ import {
   addToWallets,
   setFMStake,
   resetFMBalance,
+  setSpinSnapshot,
+  getAndClearSpinSnapshot,
 } from "@/lib/coins";
 
 // ─── Segment definitions ──────────────────────────────────────────────────────
@@ -28,12 +30,12 @@ interface Segment {
 }
 
 const RAW_SEGMENTS = [
-  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.50, href: "" },
+  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.55, href: "" },
   { id: "match",  label: "Match & Win",  shortLabel: "MATCH",  emoji: "🎯", color: "#60a5fa", labelColor: "#0c1a2e", probability: 0.15, href: "/match-and-win" },
-  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.15, href: "/survey-steal" },
-  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.10, href: "/survey-says" },
-  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.07, href: "/sudden-death" },
-  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.03, href: "" },
+  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.07, href: "/survey-steal" },
+  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.08, href: "/survey-says" },
+  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.08, href: "/sudden-death" },
+  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.07, href: "" },
 ];
 
 // Visual angles are equal for all segments — probabilities only affect the random pick
@@ -74,6 +76,11 @@ function slicePath(startAngle: number, sweepAngle: number): string {
 // ─── Weighted random pick ─────────────────────────────────────────────────────
 
 function pickSegment(): Segment {
+  // 50% bucket: guaranteed Coins
+  if (Math.random() < 0.5) {
+    return SEGMENTS.find((s) => s.id === "coins")!;
+  }
+  // 50% bucket: weighted RNG across all segments
   let r = Math.random();
   for (const seg of SEGMENTS) {
     r -= seg.probability;
@@ -252,13 +259,100 @@ export default function SpinPage() {
   const [showReveal, setShowReveal] = useState(false);
   const [chanceReward, setChanceReward] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const hudRef = useRef<HTMLDivElement>(null);
+  const fmRef = useRef<HTMLButtonElement>(null);
+  const nextParticleId = useRef(0);
+  const prevPermanentRef = useRef<number | null>(null);
+  const prevFMRef = useRef<number | null>(null);
+  const [particles, setParticles] = useState<Array<{ id: number; srcX: number; srcY: number; tx: number; ty: number; delay: number }>>([]);
+  const [hudBounce, setHudBounce] = useState(false);
+  const [fmBounce, setFMBounce] = useState(false);
 
   const refreshBalances = useCallback(() => {
     setPermanent(getPermanentBalance());
     setFMBalanceState(getFMBalance());
   }, []);
 
-  useEffect(() => { refreshBalances(); }, [refreshBalances]);
+  const triggerCoinFly = useCallback((targets: "both" | "hud" = "both") => {
+    const hud = hudRef.current;
+    if (!hud) return;
+
+    const baseSrcX = window.innerWidth / 2;
+    const baseSrcY = window.innerHeight * 0.58;
+
+    const spawnToTarget = (destX: number, destY: number, count: number) =>
+      Array.from({ length: count }, (_, i) => {
+        const srcX = baseSrcX + (Math.random() - 0.5) * 50 - 10;
+        const srcY = baseSrcY + (Math.random() - 0.5) * 50 - 10;
+        return { id: nextParticleId.current++, srcX, srcY, tx: destX - srcX - 10, ty: destY - srcY - 10, delay: i * 55 };
+      });
+
+    const hudRect = hud.getBoundingClientRect();
+    const hudBatch = spawnToTarget(hudRect.left + hudRect.width / 2, hudRect.top + hudRect.height / 2, targets === "both" ? 5 : 9);
+
+    const fm = targets === "both" ? fmRef.current : null;
+    const fmRect = fm?.getBoundingClientRect();
+    const fmBatch = fmRect
+      ? spawnToTarget(fmRect.left + fmRect.width / 2, fmRect.top + fmRect.height / 2, 5)
+      : [];
+
+    const batch = [...hudBatch, ...fmBatch];
+    setParticles((prev) => [...prev, ...batch]);
+
+    const lastDelay = (Math.max(hudBatch.length, 1) - 1) * 55;
+    setTimeout(() => {
+      setHudBounce(true);
+      setTimeout(() => setHudBounce(false), 400);
+      if (fmBatch.length > 0) {
+        setFMBounce(true);
+        setTimeout(() => setFMBounce(false), 400);
+      }
+    }, lastDelay + 550);
+    setTimeout(() => {
+      const ids = new Set(batch.map((p) => p.id));
+      setParticles((prev) => prev.filter((p) => !ids.has(p.id)));
+    }, lastDelay + 950);
+  }, []);
+
+  const checkBalanceAndFly = useCallback(() => {
+    const newPermanent = getPermanentBalance();
+    const newFM = getFMBalance();
+    const prevPerm = prevPermanentRef.current;
+    const prevFM = prevFMRef.current;
+    prevPermanentRef.current = newPermanent;
+    prevFMRef.current = newFM;
+    setPermanent(newPermanent);
+    setFMBalanceState(newFM);
+    if (prevPerm !== null && newPermanent > prevPerm) {
+      // FM also grew → regular game win → dual fly; FM flat/down → FM win → HUD only
+      triggerCoinFly(prevFM !== null && newFM > prevFM ? "both" : "hud");
+    }
+  }, [triggerCoinFly]);
+
+  useEffect(() => {
+    // Check if returning from a game mode with new coins
+    const snapshot = getAndClearSpinSnapshot();
+    const currentPerm = getPermanentBalance();
+    const currentFM = getFMBalance();
+    prevPermanentRef.current = currentPerm;
+    prevFMRef.current = currentFM;
+    refreshBalances();
+
+    if (snapshot && currentPerm > snapshot.perm) {
+      const fmAlsoGrew = currentFM > snapshot.fm;
+      setTimeout(() => triggerCoinFly(fmAlsoGrew ? "both" : "hud"), 400);
+    }
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") checkBalanceAndFly();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", checkBalanceAndFly);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", checkBalanceAndFly);
+    };
+  }, [refreshBalances, checkBalanceAndFly, triggerCoinFly]);
 
   const fmReady = fmBalance >= FM_GOAL;
   const fmProgress = Math.min(fmBalance / FM_GOAL, 1) * 100;
@@ -312,6 +406,7 @@ export default function SpinPage() {
         addToWallets(computedReward);
         refreshBalances();
         showToast(`+${computedReward.toLocaleString()}`);
+        triggerCoinFly();
       } else if (seg.id === "chance" && computedReward !== null) {
         setChanceReward(computedReward);
       } else {
@@ -327,10 +422,12 @@ export default function SpinPage() {
     refreshBalances();
     showToast(`+${chanceReward.toLocaleString()}`);
     setChanceReward(null);
+    triggerCoinFly();
   };
 
   const handleGo = () => {
     if (!result) return;
+    setSpinSnapshot();
     router.push(result.href);
   };
 
@@ -339,6 +436,7 @@ export default function SpinPage() {
       showToast(`Fill the bar to ${FM_GOAL.toLocaleString()} coins!`);
       return;
     }
+    setSpinSnapshot();
     setFMStake(fmBalance);
     resetFMBalance();
     setFMBalanceState(0);
@@ -386,14 +484,22 @@ export default function SpinPage() {
           <span className="font-mono text-xs uppercase tracking-widest text-amber-400/60">
             Spin to Play
           </span>
-          <div className="w-12" />
+          {/* HUD coin display */}
+          <div
+            ref={hudRef}
+            className="flex items-center gap-1.5 rounded-full border border-amber-400/20 bg-amber-400/[0.06] px-2.5 py-1 transition-transform duration-150"
+            style={hudBounce ? { transform: "scale(1.3)" } : undefined}
+          >
+            <span className="text-xs leading-none">🪙</span>
+            <span className="font-mono text-xs font-black tabular-nums text-amber-400">{permanent.toLocaleString()}</span>
+          </div>
         </div>
 
-        {/* ── Wallets ── */}
-        <div className="relative mb-6 flex flex-col gap-2">
+        {/* ── Fast Money (primary wallet) ── */}
+        <div className="relative mb-5">
           {/* Toast */}
           <div
-            className="pointer-events-none absolute -right-1 -top-4 font-mono text-sm font-black text-emerald-400 transition-all duration-300"
+            className="pointer-events-none absolute -right-1 -top-5 font-mono text-sm font-black text-emerald-400 transition-all duration-300"
             style={{
               opacity: toast ? 1 : 0,
               transform: toast ? "translateY(-6px)" : "translateY(0px)",
@@ -402,53 +508,81 @@ export default function SpinPage() {
             {toast}
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl border border-amber-400/15 bg-amber-400/[0.04] px-5 py-3">
-            <span className="text-lg">🏦</span>
-            <div className="flex-1 text-left">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-amber-400/40">Permanent</p>
-              <p className="font-mono text-base font-black tabular-nums text-amber-400">
-                {permanent.toLocaleString()}
-              </p>
-            </div>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400/20">coins</span>
-          </div>
-
           <button
+            ref={fmRef}
             onClick={handleWalletClick}
-            className="flex flex-col gap-2.5 rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] px-5 py-3 transition-all duration-200 hover:border-emerald-400/40 hover:bg-emerald-400/[0.09] active:scale-95"
+            className="relative w-full overflow-hidden rounded-2xl border px-5 py-4 text-left transition-all duration-200"
             style={{
-              boxShadow: fmReady
-                ? "0 0 28px rgba(52,211,153,0.2)"
-                : fmBalance > 0
-                  ? "0 0 24px rgba(52,211,153,0.08)"
-                  : "none",
+              borderColor: fmReady ? "rgba(52,211,153,0.5)" : "rgba(52,211,153,0.12)",
+              background: fmReady ? "rgba(52,211,153,0.09)" : "rgba(52,211,153,0.04)",
+              boxShadow: fmReady ? "0 0 40px rgba(52,211,153,0.18)" : "none",
+              ...(fmBounce ? { transform: "scale(1.03)" } : {}),
             }}
           >
-            <div className="flex w-full items-center gap-3">
-              <span className="text-lg">⚡</span>
-              <div className="flex-1 text-left">
-                <p
-                  className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${
-                    fmReady ? "text-emerald-400" : "text-emerald-400/50"
-                  }`}
-                >
-                  Fast Money{" "}
-                  {fmReady ? "· Ready! · tap to play" : "· win games to fill"}
-                </p>
-                <p
-                  className={`mt-0.5 font-mono text-sm font-black tabular-nums transition-colors ${
-                    fmReady ? "text-emerald-400" : fmBalance > 0 ? "text-emerald-400/80" : "text-white/20"
-                  }`}
-                >
-                  {Math.min(fmBalance, FM_GOAL).toLocaleString()} / {FM_GOAL.toLocaleString()}
-                </p>
-              </div>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+            {fmReady && (
               <div
-                className="h-full rounded-full bg-emerald-400 transition-all duration-500"
-                style={{ width: `${fmProgress}%` }}
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(52,211,153,0.12), transparent 70%)",
+                }}
               />
+            )}
+
+            <div className="relative">
+              {/* Header row */}
+              <div className="mb-3 flex items-start justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="flex h-9 w-9 items-center justify-center rounded-xl"
+                    style={{
+                      background: fmReady ? "rgba(52,211,153,0.2)" : "rgba(255,255,255,0.05)",
+                    }}
+                  >
+                    <span className="text-lg">⚡</span>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/50">
+                      Fast Money
+                    </p>
+                    <p
+                      className={`font-mono text-2xl font-black tabular-nums leading-none transition-colors ${
+                        fmReady
+                          ? "text-emerald-400"
+                          : fmBalance > 0
+                          ? "text-emerald-400/70"
+                          : "text-white/20"
+                      }`}
+                    >
+                      {fmBalance.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+                {fmReady ? (
+                  <span className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                    Tap to Play →
+                  </span>
+                ) : (
+                  <span className="rounded-full border border-white/5 bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-white/20">
+                    locked
+                  </span>
+                )}
+              </div>
+
+              {/* Progress bar */}
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{
+                    width: `${fmProgress}%`,
+                    background: fmReady ? "#34d399" : "rgba(52,211,153,0.6)",
+                  }}
+                />
+              </div>
+              <p className="mt-1.5 font-mono text-[10px] text-white/20">
+                {fmBalance.toLocaleString()} / {FM_GOAL.toLocaleString()} coins ·{" "}
+                {fmReady ? "ready to play!" : "win trivia games to fill"}
+              </p>
             </div>
           </button>
         </div>
@@ -585,28 +719,40 @@ export default function SpinPage() {
           </button>
         </div>
 
-        {/* ── Legend ── */}
-        <div className="mt-8 grid grid-cols-3 gap-2">
-          {SEGMENTS.map((seg) => (
-            <div
-              key={seg.id}
-              className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5"
-            >
-              <div
-                className="h-2 w-2 shrink-0 rounded-full"
-                style={{ backgroundColor: seg.color }}
-              />
-              <p className="min-w-0 truncate text-[10px] font-semibold text-white/50">
-                {seg.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-widest text-white/15">
+        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-widest text-white/15">
           prototype · spin version
         </p>
       </div>
+
+      {/* Flying coin particles */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="pointer-events-none fixed z-[9999] select-none"
+          style={{
+            left: p.srcX,
+            top: p.srcY,
+            fontSize: 18,
+            "--tx": `${p.tx}px`,
+            "--ty": `${p.ty}px`,
+            animationName: "coinFly",
+            animationDuration: "700ms",
+            animationDelay: `${p.delay}ms`,
+            animationTimingFunction: "ease-in",
+            animationFillMode: "both",
+          } as React.CSSProperties}
+        >
+          🪙
+        </div>
+      ))}
+
+      <style>{`
+        @keyframes coinFly {
+          0%   { transform: translate(0, 0) scale(1.4); opacity: 1; }
+          70%  { opacity: 1; }
+          100% { transform: translate(var(--tx), var(--ty)) scale(0.25); opacity: 0; }
+        }
+      `}</style>
     </main>
   );
 }
