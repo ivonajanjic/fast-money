@@ -47,7 +47,14 @@ function shuffle<T>(arr: T[]): T[] {
 function pickQuestions(): { question: Question; options: Option[] }[] {
   return shuffle(questionsData as Question[])
     .slice(0, QUESTION_COUNT)
-    .map((q) => ({ question: q, options: shuffle(q.options) }));
+    .map((q) => {
+      const correct = q.options
+        .filter((o) => o.is_correct)
+        .sort((a, b) => b.points - a.points)
+        .slice(0, 5);
+      const decoys = shuffle(q.options.filter((o) => !o.is_correct)).slice(0, 3);
+      return { question: q, options: shuffle([...correct, ...decoys]) };
+    });
 }
 
 // ─── Quiz phase ───────────────────────────────────────────────────────────────

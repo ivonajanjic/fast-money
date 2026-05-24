@@ -1,142 +1,3052 @@
 [
   {
     "id": 1,
-    "question": "We asked 100 people: Name a fruit they eat for breakfast.",
+    "question": "Name something around the house that you empty",
     "options": [
-      { "text": "Banana", "points": 40, "is_correct": true },
-      { "text": "Apple", "points": 30, "is_correct": true },
-      { "text": "Orange", "points": 20, "is_correct": true },
-      { "text": "Berries", "points": 10, "is_correct": true },
-      { "text": "Melon", "points": 5, "is_correct": true },
-      { "text": "Mango", "points": 0, "is_correct": false },
-      { "text": "Pineapple", "points": 0, "is_correct": false },
-      { "text": "Kiwi", "points": 0, "is_correct": false }
+      {
+        "text": "The trash",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "Dishwasher",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Washer / Dryer",
+        "points": 17,
+        "is_correct": true
+      },
+      {
+        "text": "Ashtray",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Vacuum cleaner",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Garage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bookshelf",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Medicine cabinet",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bathtub",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Mailbox",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pantry",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 2,
-    "question": "We asked 100 people: Name a reason someone might be late to work.",
+    "question": "Name something people ask you to smell",
     "options": [
-      { "text": "Traffic", "points": 40, "is_correct": true },
-      { "text": "Overslept", "points": 30, "is_correct": true },
-      { "text": "Car trouble", "points": 20, "is_correct": true },
-      { "text": "Kids", "points": 10, "is_correct": true },
-      { "text": "Bad weather", "points": 5, "is_correct": true },
-      { "text": "Dentist visit", "points": 0, "is_correct": false },
-      { "text": "Power outage", "points": 0, "is_correct": false },
-      { "text": "Lost wallet", "points": 0, "is_correct": false }
+      {
+        "text": "Perfume / Cologne",
+        "points": 35,
+        "is_correct": true
+      },
+      {
+        "text": "Food / Milk",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Flowers",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Their finger",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Candles",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Something burning",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "New car smell",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Baby's head",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Fresh laundry",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Markers",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Essential oils",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 3,
-    "question": "We asked 100 people: Name something you always forget to pack when traveling.",
+    "question": "Name something some people are afraid to get on",
     "options": [
-      { "text": "Charger", "points": 40, "is_correct": true },
-      { "text": "Toothbrush", "points": 30, "is_correct": true },
-      { "text": "Medication", "points": 20, "is_correct": true },
-      { "text": "Socks", "points": 10, "is_correct": true },
-      { "text": "Headphones", "points": 5, "is_correct": true },
-      { "text": "Travel pillow", "points": 0, "is_correct": false },
-      { "text": "Hair dryer", "points": 0, "is_correct": false },
-      { "text": "Jacket", "points": 0, "is_correct": false }
+      {
+        "text": "Amusement ride",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "Airplane",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Horse",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Elevator",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Boat",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Motorcycle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Escalator",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Ski lift",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bicycle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Subway",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Trampoline",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 4,
-    "question": "We asked 100 people: Name a topping people put on pizza.",
+    "question": "Name something people shop around for a really good pair of",
     "options": [
-      { "text": "Pepperoni", "points": 40, "is_correct": true },
-      { "text": "Mushrooms", "points": 30, "is_correct": true },
-      { "text": "Extra cheese", "points": 20, "is_correct": true },
-      { "text": "Onions", "points": 10, "is_correct": true },
-      { "text": "Bell peppers", "points": 5, "is_correct": true },
-      { "text": "Pineapple", "points": 0, "is_correct": false },
-      { "text": "Anchovies", "points": 0, "is_correct": false },
-      { "text": "Jalapeños", "points": 0, "is_correct": false }
+      {
+        "text": "Shoes / Sneakers",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Jeans",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Glasses / Shades",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Earrings",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Gloves",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Headphones",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Scissors",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Binoculars",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Chopsticks",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Skis",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tweezers",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 5,
-    "question": "We asked 100 people: Name something people do first thing in the morning.",
+    "question": "Name something big you hope is in the small package someone gives you",
     "options": [
-      { "text": "Check their phone", "points": 40, "is_correct": true },
-      { "text": "Brush their teeth", "points": 30, "is_correct": true },
-      { "text": "Make coffee", "points": 20, "is_correct": true },
-      { "text": "Take a shower", "points": 10, "is_correct": true },
-      { "text": "Eat breakfast", "points": 5, "is_correct": true },
-      { "text": "Exercise", "points": 0, "is_correct": false },
-      { "text": "Meditate", "points": 0, "is_correct": false },
-      { "text": "Read the news", "points": 0, "is_correct": false }
+      {
+        "text": "Cash / Gift card",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "Diamond / Jewelry",
+        "points": 30,
+        "is_correct": true
+      },
+      {
+        "text": "Car keys",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Cell phone",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Concert tickets",
+        "points": 6,
+        "is_correct": true
+      },
+      {
+        "text": "Chocolate",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Fancy pen",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Keychain",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bookmark",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "USB drive",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Photo",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 6,
-    "question": "We asked 100 people: Name a popular birthday cake flavor.",
+    "question": "Fill in the blank: Sweet as ___",
     "options": [
-      { "text": "Chocolate", "points": 40, "is_correct": true },
-      { "text": "Vanilla", "points": 30, "is_correct": true },
-      { "text": "Red velvet", "points": 20, "is_correct": true },
-      { "text": "Lemon", "points": 10, "is_correct": true },
-      { "text": "Carrot", "points": 5, "is_correct": true },
-      { "text": "Pistachio", "points": 0, "is_correct": false },
-      { "text": "Coffee", "points": 0, "is_correct": false },
-      { "text": "Lavender", "points": 0, "is_correct": false }
+      {
+        "text": "Pie",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Honey",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Sugar",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Candy",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "An angel",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Peaches",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sunshine",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "A kitten",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Maple syrup",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "A baby",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "A lullaby",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 7,
-    "question": "We asked 100 people: Name a reason someone calls in sick when they aren't.",
+    "question": "Name something superstitious people think brings good luck",
     "options": [
-      { "text": "Needed a mental health day", "points": 40, "is_correct": true },
-      { "text": "Just too tired", "points": 30, "is_correct": true },
-      { "text": "Hangover", "points": 20, "is_correct": true },
-      { "text": "Wanted to watch a game", "points": 10, "is_correct": true },
-      { "text": "Beautiful weather outside", "points": 5, "is_correct": true },
-      { "text": "Pet needed attention", "points": 0, "is_correct": false },
-      { "text": "Had a date", "points": 0, "is_correct": false },
-      { "text": "Forgot to set an alarm", "points": 0, "is_correct": false }
+      {
+        "text": "Rabbit's foot",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Four-leaf clover",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Coin / Penny",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Salt over shoulder",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Horseshoe",
+        "points": 9,
+        "is_correct": true
+      },
+      {
+        "text": "Wishbone",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Lucky number 7",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Crossed fingers",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Shooting star",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Ladybug",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dream catcher",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 8,
-    "question": "We asked 100 people: Name something people always buy too much of at the grocery store.",
+    "question": "Name something people do when they get nervous",
     "options": [
-      { "text": "Bread", "points": 40, "is_correct": true },
-      { "text": "Milk", "points": 30, "is_correct": true },
-      { "text": "Snacks", "points": 20, "is_correct": true },
-      { "text": "Fresh produce", "points": 10, "is_correct": true },
-      { "text": "Frozen food", "points": 5, "is_correct": true },
-      { "text": "Toothpaste", "points": 0, "is_correct": false },
-      { "text": "Cleaning supplies", "points": 0, "is_correct": false },
-      { "text": "Batteries", "points": 0, "is_correct": false }
+      {
+        "text": "Bite nails / Fingers",
+        "points": 35,
+        "is_correct": true
+      },
+      {
+        "text": "Sweat",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Fidget / Squirm",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Laugh / Giggle",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Talk fast / Stutter",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Crack knuckles",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Clear throat",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hold breath",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Clench jaw",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Blush",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Go silent",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 9,
-    "question": "We asked 100 people: Name a place people go on a first date.",
+    "question": "Name something you clench when you're stressed out",
     "options": [
-      { "text": "Restaurant", "points": 40, "is_correct": true },
-      { "text": "Coffee shop", "points": 30, "is_correct": true },
-      { "text": "Movies", "points": 20, "is_correct": true },
-      { "text": "Park", "points": 10, "is_correct": true },
-      { "text": "Bar", "points": 5, "is_correct": true },
-      { "text": "Museum", "points": 0, "is_correct": false },
-      { "text": "Bowling alley", "points": 0, "is_correct": false },
-      { "text": "Mini golf", "points": 0, "is_correct": false }
+      {
+        "text": "Teeth / Jaw",
+        "points": 35,
+        "is_correct": true
+      },
+      {
+        "text": "Hands / Fists",
+        "points": 27,
+        "is_correct": true
+      },
+      {
+        "text": "Stress ball",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Butt",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Steering wheel",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Pillow",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Armrest",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pen",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Phone",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Blanket",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cup",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   },
   {
     "id": 10,
-    "question": "We asked 100 people: Name something you'd find in a junk drawer.",
+    "question": "Name something you think of when you hear the word 'grind'",
     "options": [
-      { "text": "Batteries", "points": 40, "is_correct": true },
-      { "text": "Old keys", "points": 30, "is_correct": true },
-      { "text": "Rubber bands", "points": 20, "is_correct": true },
-      { "text": "Takeout menus", "points": 10, "is_correct": true },
-      { "text": "Tape", "points": 5, "is_correct": true },
-      { "text": "Playing cards", "points": 0, "is_correct": false },
-      { "text": "Scissors", "points": 0, "is_correct": false },
-      { "text": "Pens", "points": 0, "is_correct": false }
+      {
+        "text": "Coffee",
+        "points": 30,
+        "is_correct": true
+      },
+      {
+        "text": "Teeth",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Bump / Dance",
+        "points": 20,
+        "is_correct": true
+      },
+      {
+        "text": "Work / Daily grind",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Pepper / Spices",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Meat",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Skateboarding",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sandpaper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gears",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Video games",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Workout",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "question": "Tell me something you might describe as a dead end",
+    "options": [
+      {
+        "text": "Street / Road",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Job / Job search",
+        "points": 28,
+        "is_correct": true
+      },
+      {
+        "text": "Marriage / Relationship",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Life",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Conversation",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Investigation",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Diet",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Negotiation",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Project",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Puzzle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dream",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Name something that might be fuzzy",
+    "options": [
+      {
+        "text": "Bear / Animal",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Peach / Fruit",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Person / Beard",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Stuffed animal",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Slippers",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Sweater",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Blanket",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tennis ball",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Mold",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "TV static",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dice",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Name a game that children used to play outside",
+    "options": [
+      {
+        "text": "Tag",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Hopscotch",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Hide-and-seek",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Kick the can",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Jump rope",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Red rover",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Red light green light",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Capture the flag",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Duck duck goose",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Simon says",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dodgeball",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "question": "Fill in the blank: Caught in the ___",
+    "options": [
+      {
+        "text": "Act",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Middle",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Crossfire / Fire",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Rain / Storm",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Web of lies",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Moment",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Headlights",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cookie jar",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Traffic",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Spotlight",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Trap",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "question": "Name something you skip",
+    "options": [
+      {
+        "text": "Meals / Food",
+        "points": 37,
+        "is_correct": true
+      },
+      {
+        "text": "Rope",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Rocks",
+        "points": 17,
+        "is_correct": true
+      },
+      {
+        "text": "Exercise / Gym",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Commercials / Ads",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "School",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Lines",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Turns",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Steps",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pages",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Ahead",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Name something an orchestra conductor needs to do his job",
+    "options": [
+      {
+        "text": "Baton",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Sheet music",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "An orchestra",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Tuxedo",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Podium",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Microphone",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Stage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Talent",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Chair",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Glasses",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Spotlight",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Name something people decorate",
+    "options": [
+      {
+        "text": "Christmas tree",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "House / Rooms",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "The cake",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Easter eggs",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Nails",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Cookies",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pumpkins",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Presents",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Car",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Phone case",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Diary",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "question": "Finish this expression: Dirty ___",
+    "options": [
+      {
+        "text": "Dancing",
+        "points": 33,
+        "is_correct": true
+      },
+      {
+        "text": "Harry",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Dog / Dawg",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Laundry",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Deeds",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Dozen",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Secret",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Mind",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Looks",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hands",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Money",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Name a term used in the game of bowling",
+    "options": [
+      {
+        "text": "Strike",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Spare",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Pin",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Turkey",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Gutter ball",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Lane",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Frame",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Split",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Alley",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hook",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Foul line",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "question": "Give me another way people say the word 'jail'",
+    "options": [
+      {
+        "text": "Slammer",
+        "points": 32,
+        "is_correct": true
+      },
+      {
+        "text": "Prison",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Pokey",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Big house",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "The joint",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Clink",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "The pen",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "The can",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Lockup",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "The hole",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cooler",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "question": "Name something you talk to that can't talk back",
+    "options": [
+      {
+        "text": "Dog / Animals",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "TV / Movie",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Car",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Plants / Trees",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Mirror / Reflection",
+        "points": 9,
+        "is_correct": true
+      },
+      {
+        "text": "Computer",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Phone",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "God",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Diary",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Teddy bear",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Wall",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "question": "Name something you leave the skin on when eating it",
+    "options": [
+      {
+        "text": "Apple",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Chicken",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Potato",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Peach",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Grapes",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Sausage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hot dog",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Fish",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Shrimp",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Carrot",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Celery",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "question": "Name something ducks do",
+    "options": [
+      {
+        "text": "Quack",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Swim / Paddle",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Waddle",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Fly",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Lay eggs",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Migrate",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Preen feathers",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Eat bread",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Float",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Nest",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Molt",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "question": "Name something that has links",
+    "options": [
+      {
+        "text": "Chain / Jewelry",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "Website / Email",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Fence / Gate",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Sausage",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Golf course",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Train cars",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "DNA",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Paper clips",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Puzzle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Blockchain",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Anchor",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "question": "Give me a word or phrase that contains the word 'band'",
+    "options": [
+      {
+        "text": "Rubber band",
+        "points": 32,
+        "is_correct": true
+      },
+      {
+        "text": "Rock band",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Wedding band",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Band-aid",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Bandwagon",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Headband",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Armband",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bandwidth",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bandana",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Contraband",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Abandon",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "question": "Give me the word that rhymes with ZIPPER",
+    "options": [
+      {
+        "text": "Flipper",
+        "points": 30,
+        "is_correct": true
+      },
+      {
+        "text": "Dipper",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Tipper",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Clipper",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Ripper",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Skipper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sipper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Slipper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Chipper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gripper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Whipper",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "question": "Name something people take out",
+    "options": [
+      {
+        "text": "Food / Chinese",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "The trash",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Money / Loan",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "The dog / Pet",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Insurance",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Library books",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Frustration",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Contacts",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Time",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Revenge",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "A date",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "question": "Name something dogs might talk about with other dogs",
+    "options": [
+      {
+        "text": "Owners / Humans",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Food / Eating",
+        "points": 27,
+        "is_correct": true
+      },
+      {
+        "text": "Smells",
+        "points": 17,
+        "is_correct": true
+      },
+      {
+        "text": "Bones",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Cats",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Poop",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Territory",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Squirrels",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Walks",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Toys",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "The mailman",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "question": "Besides another person, name something people hug",
+    "options": [
+      {
+        "text": "Pets",
+        "points": 40,
+        "is_correct": true
+      },
+      {
+        "text": "Pillow",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Teddy bear",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Trees",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Blanket",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Steering wheel",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Backpack",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Guitar",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Purse",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Book",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bowling ball",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "question": "Fill in the blank: If the dog could talk it might say ___ me",
+    "options": [
+      {
+        "text": "Feed",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Pet / Scratch",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Walk",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Love",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Chase",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Understand",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tickle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Adopt",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Massage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Spoil",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Protect",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "question": "Name something that starts with the word 'pine'",
+    "options": [
+      {
+        "text": "Pinecone",
+        "points": 36,
+        "is_correct": true
+      },
+      {
+        "text": "Pine tree",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Pine needle",
+        "points": 17,
+        "is_correct": true
+      },
+      {
+        "text": "Pine-sol",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Pineapple",
+        "points": 9,
+        "is_correct": true
+      },
+      {
+        "text": "Pine nut",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pine forest",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pine box",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pine tar",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pine bark",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pine oil",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "question": "Name something people crack open",
+    "options": [
+      {
+        "text": "Nuts / Peanuts",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Alcohol / Beer",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Eggs",
+        "points": 17,
+        "is_correct": true
+      },
+      {
+        "text": "Windows",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Crab / Lobster",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Books",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Glow sticks",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Fortune cookies",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Safe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Piggy bank",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Ice",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "question": "Name something you can pass",
+    "options": [
+      {
+        "text": "Test",
+        "points": 34,
+        "is_correct": true
+      },
+      {
+        "text": "Ball / Football",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Gas",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Car / Lanes",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Illness",
+        "points": 9,
+        "is_correct": true
+      },
+      {
+        "text": "Food",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Time",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Law",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Baton",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Torch",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Judgment",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "question": "Name something you might eat on a stick",
+    "options": [
+      {
+        "text": "Corn dog / Hot dog",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Popsicle / Ice cream",
+        "points": 28,
+        "is_correct": true
+      },
+      {
+        "text": "Shish kebab",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Marshmallow",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Caramel apple",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Lollipop",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cotton candy",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cheese",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Chicken satay",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Meatball",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pretzel",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "question": "Give me a word that rhymes with 'hustle'",
+    "options": [
+      {
+        "text": "Bustle",
+        "points": 46,
+        "is_correct": true
+      },
+      {
+        "text": "Muscle",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Rustle",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Tussle",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Gristle",
+        "points": 6,
+        "is_correct": true
+      },
+      {
+        "text": "Thistle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Whistle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bristle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Wrestle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Castle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Jostle",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "question": "Give me another word for gigantic",
+    "options": [
+      {
+        "text": "Huge",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Enormous",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Big",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Humongous",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Massive",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Colossal",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Immense",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gargantuan",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Mammoth",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Titanic",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Vast",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "question": "Name something you cook on a griddle",
+    "options": [
+      {
+        "text": "Pancakes",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Hamburgers",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Bacon",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Steaks",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Eggs",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Grilled cheese",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "French toast",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sausage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hash browns",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Quesadilla",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Fish",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "question": "Name a US city that starts with the letter 'P'",
+    "options": [
+      {
+        "text": "Pittsburgh",
+        "points": 32,
+        "is_correct": true
+      },
+      {
+        "text": "Philadelphia",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Portland",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Phoenix",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Pasadena",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Peoria",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Providence",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pensacola",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Plano",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Provo",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Poughkeepsie",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "question": "Fill in the blank: The Three ___",
+    "options": [
+      {
+        "text": "Musketeers",
+        "points": 34,
+        "is_correct": true
+      },
+      {
+        "text": "Stooges",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Little Pigs",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Bears",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Blind Mice",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Wise Men",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Amigos",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tenors",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Rings",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sisters",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Doors",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "question": "Give me a word that rhymes with 'nanny'",
+    "options": [
+      {
+        "text": "Fanny",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Granny",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Canny",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Danny",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Manny",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Annie",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Cranny",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Uncanny",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Nani",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Afghani",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Rani",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "question": "Fill in the blank: ___ canal",
+    "options": [
+      {
+        "text": "Panama",
+        "points": 34,
+        "is_correct": true
+      },
+      {
+        "text": "Root",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Erie",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Suez",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Ear",
+        "points": 9,
+        "is_correct": true
+      },
+      {
+        "text": "Grand",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Venice",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Love",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Birth",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Shipping",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Alimentary",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "question": "Name something that comes rolled up when you buy it",
+    "options": [
+      {
+        "text": "Toilet paper",
+        "points": 30,
+        "is_correct": true
+      },
+      {
+        "text": "Cigarette / Cigar",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Carpet / Rug",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Paper towels",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Fruit roll-ups",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Wrapping paper",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Posters",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Sleeping bag",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Yoga mat",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tape",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Wallpaper",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "question": "Name something that gets more expensive to take care of the older it gets",
+    "options": [
+      {
+        "text": "Car",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "People / Health",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Pet / Animal",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "House",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Teeth",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Computer",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Boat",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Clothes",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Marriage",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bicycle",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Phone",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "question": "Name something people are paid to predict",
+    "options": [
+      {
+        "text": "The weather",
+        "points": 38,
+        "is_correct": true
+      },
+      {
+        "text": "Your future",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Sports / Winners",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Stock market",
+        "points": 12,
+        "is_correct": true
+      },
+      {
+        "text": "Elections",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Earthquakes",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Trends",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Traffic",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Baby's gender",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Oscar winners",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Lottery numbers",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "question": "Name a word that rhymes with 'honey'",
+    "options": [
+      {
+        "text": "Money",
+        "points": 42,
+        "is_correct": true
+      },
+      {
+        "text": "Bunny",
+        "points": 24,
+        "is_correct": true
+      },
+      {
+        "text": "Funny",
+        "points": 16,
+        "is_correct": true
+      },
+      {
+        "text": "Sunny",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Runny",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Sonny",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gunny",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tunny",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tummy",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dummy",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Chummy",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "question": "Finish this phrase: Hit the ___",
+    "options": [
+      {
+        "text": "Road / Jack",
+        "points": 33,
+        "is_correct": true
+      },
+      {
+        "text": "Ball",
+        "points": 22,
+        "is_correct": true
+      },
+      {
+        "text": "Hay",
+        "points": 19,
+        "is_correct": true
+      },
+      {
+        "text": "Button",
+        "points": 15,
+        "is_correct": true
+      },
+      {
+        "text": "Deck",
+        "points": 11,
+        "is_correct": true
+      },
+      {
+        "text": "Fan",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Nail on the head",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Jackpot",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Brakes",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gym",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Target",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "question": "Give me another way people say 'rich'",
+    "options": [
+      {
+        "text": "Wealthy",
+        "points": 35,
+        "is_correct": true
+      },
+      {
+        "text": "Loaded",
+        "points": 27,
+        "is_correct": true
+      },
+      {
+        "text": "Well-off / To-do",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Affluent",
+        "points": 13,
+        "is_correct": true
+      },
+      {
+        "text": "Rolling in it",
+        "points": 7,
+        "is_correct": true
+      },
+      {
+        "text": "Minted",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Flush",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Stacked",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Balling",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Privileged",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bougie",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "question": "Give me a word that rhymes with 'wipe'",
+    "options": [
+      {
+        "text": "Type",
+        "points": 30,
+        "is_correct": true
+      },
+      {
+        "text": "Swipe",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Pipe",
+        "points": 20,
+        "is_correct": true
+      },
+      {
+        "text": "Ripe",
+        "points": 15,
+        "is_correct": true
+      },
+      {
+        "text": "Snipe",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Stripe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Hype",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Gripe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tripe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bagpipe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Pinstripe",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "question": "Name someone it's not a good idea to talk back to",
+    "options": [
+      {
+        "text": "Police officer",
+        "points": 33,
+        "is_correct": true
+      },
+      {
+        "text": "Mother / Father",
+        "points": 25,
+        "is_correct": true
+      },
+      {
+        "text": "Boss",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Wife / Mate",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Judge / Lawyer",
+        "points": 10,
+        "is_correct": true
+      },
+      {
+        "text": "Clergy",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Teacher",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Drill sergeant",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Dentist",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Bouncer",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Referee",
+        "points": 0,
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "question": "Name a food some consider a delicacy and others think is disgusting",
+    "options": [
+      {
+        "text": "Snails / Escargot",
+        "points": 34,
+        "is_correct": true
+      },
+      {
+        "text": "Caviar / Fish eggs",
+        "points": 26,
+        "is_correct": true
+      },
+      {
+        "text": "Sushi",
+        "points": 18,
+        "is_correct": true
+      },
+      {
+        "text": "Oysters",
+        "points": 14,
+        "is_correct": true
+      },
+      {
+        "text": "Octopus",
+        "points": 8,
+        "is_correct": true
+      },
+      {
+        "text": "Frog legs",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tripe",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Liver",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Haggis",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Tongue",
+        "points": 0,
+        "is_correct": false
+      },
+      {
+        "text": "Durian",
+        "points": 0,
+        "is_correct": false
+      }
     ]
   }
 ]

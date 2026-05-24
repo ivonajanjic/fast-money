@@ -56,6 +56,45 @@ export function clearFMStake(): void {
   localStorage.removeItem(FM_STAKE_KEY);
 }
 
+// ─── Match & Win cooldown (unavailable for 7 spins after landing on it) ──────
+
+const MATCH_COOLDOWN_KEY = "feud_match_cooldown";
+
+export function getMatchCooldown(): number {
+  if (typeof window === "undefined") return 0;
+  return parseInt(localStorage.getItem(MATCH_COOLDOWN_KEY) ?? "0", 10);
+}
+
+export function decrementMatchCooldown(): void {
+  if (typeof window === "undefined") return;
+  const next = Math.max(0, getMatchCooldown() - 1);
+  localStorage.setItem(MATCH_COOLDOWN_KEY, String(next));
+}
+
+export function resetMatchCooldown(): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(MATCH_COOLDOWN_KEY, "7");
+}
+
+// ─── Trivia pity counter (forces trivia on 4th consecutive non-trivia spin) ───
+
+const NON_TRIVIA_STREAK_KEY = "feud_non_trivia_streak";
+
+export function getNonTriviaStreak(): number {
+  if (typeof window === "undefined") return 0;
+  return parseInt(localStorage.getItem(NON_TRIVIA_STREAK_KEY) ?? "0", 10);
+}
+
+export function incrementNonTriviaStreak(): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(NON_TRIVIA_STREAK_KEY, String(getNonTriviaStreak() + 1));
+}
+
+export function resetNonTriviaStreak(): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(NON_TRIVIA_STREAK_KEY, "0");
+}
+
 // ─── Fast Money trivia rounds (spin-2 progress toward FM unlock) ─────────────
 
 const FM_ROUNDS_KEY = "feud_fm_rounds";

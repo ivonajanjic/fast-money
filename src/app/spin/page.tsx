@@ -11,6 +11,12 @@ import {
   resetFMBalance,
   setSpinSnapshot,
   getAndClearSpinSnapshot,
+  getNonTriviaStreak,
+  incrementNonTriviaStreak,
+  resetNonTriviaStreak,
+  getMatchCooldown,
+  decrementMatchCooldown,
+  resetMatchCooldown,
 } from "@/lib/coins";
 
 // ─── Segment definitions ──────────────────────────────────────────────────────
@@ -30,12 +36,12 @@ interface Segment {
 }
 
 const RAW_SEGMENTS = [
-  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.55, href: "" },
-  { id: "match",  label: "Match & Win",  shortLabel: "MATCH",  emoji: "🎯", color: "#60a5fa", labelColor: "#0c1a2e", probability: 0.15, href: "/match-and-win" },
-  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.07, href: "/survey-steal" },
-  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.08, href: "/survey-says" },
-  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.08, href: "/sudden-death" },
-  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.07, href: "" },
+  { id: "coins",  label: "Coins",        shortLabel: "COINS",  emoji: "🪙", color: "#34d399", labelColor: "#022c22", probability: 0.40, href: "" },
+  { id: "match",  label: "Match & Win",  shortLabel: "MATCH",  emoji: "🎯", color: "#60a5fa", labelColor: "#0c1a2e", probability: 0.21, href: "/match-and-win" },
+  { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.12, href: "/survey-steal" },
+  { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.12, href: "/survey-says" },
+  { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.06, href: "/sudden-death" },
+  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.09, href: "" },
 ];
 
 // Visual angles are equal for all segments — probabilities only affect the random pick
@@ -75,18 +81,18 @@ function slicePath(startAngle: number, sweepAngle: number): string {
 
 // ─── Weighted random pick ─────────────────────────────────────────────────────
 
-function pickSegment(): Segment {
-  // 50% bucket: guaranteed Coins
-  if (Math.random() < 0.5) {
-    return SEGMENTS.find((s) => s.id === "coins")!;
-  }
-  // 50% bucket: weighted RNG across all segments
-  let r = Math.random();
-  for (const seg of SEGMENTS) {
+const TRIVIA_IDS = new Set(["steal", "says", "death"]);
+
+function pickSegment(forceTrivia = false, matchOnCooldown = false): Segment {
+  let pool = forceTrivia ? SEGMENTS.filter((s) => TRIVIA_IDS.has(s.id)) : SEGMENTS;
+  if (matchOnCooldown) pool = pool.filter((s) => s.id !== "match");
+  const total = pool.reduce((sum, s) => sum + s.probability, 0);
+  let r = Math.random() * total;
+  for (const seg of pool) {
     r -= seg.probability;
     if (r <= 0) return seg;
   }
-  return SEGMENTS[SEGMENTS.length - 1]!;
+  return pool[pool.length - 1]!;
 }
 
 function rollCoins() { return Math.floor(Math.random() * 46) + 5; }
@@ -259,6 +265,7 @@ export default function SpinPage() {
   const [showReveal, setShowReveal] = useState(false);
   const [chanceReward, setChanceReward] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [coinToast, setCoinToast] = useState<string | null>(null);
   const hudRef = useRef<HTMLDivElement>(null);
   const fmRef = useRef<HTMLButtonElement>(null);
   const nextParticleId = useRef(0);
@@ -362,10 +369,15 @@ export default function SpinPage() {
     setTimeout(() => setToast(null), 1800);
   };
 
+  const showCoinToast = (msg: string) => {
+    setCoinToast(msg);
+    setTimeout(() => setCoinToast(null), 1800);
+  };
+
   const handleSpin = () => {
     if (spinning || showReveal || chanceReward !== null || fmReady) return;
 
-    const seg = pickSegment();
+    const seg = pickSegment(getNonTriviaStreak() >= 3, getMatchCooldown() > 0);
 
     // Local angle we want under the pointer (midpoint ± 30% of wedge width)
     const jitter = (Math.random() * 0.6 - 0.3) * seg.sweepAngle;
@@ -402,10 +414,22 @@ export default function SpinPage() {
 
     setTimeout(() => {
       setSpinning(false);
+      // Update pity counter before resolving the outcome
+      if (TRIVIA_IDS.has(seg.id)) {
+        resetNonTriviaStreak();
+      } else {
+        incrementNonTriviaStreak();
+      }
+      // Match & Win cooldown
+      if (seg.id === "match") {
+        resetMatchCooldown();
+      } else {
+        decrementMatchCooldown();
+      }
       if (seg.id === "coins" && computedReward !== null) {
         addToWallets(computedReward);
         refreshBalances();
-        showToast(`+${computedReward.toLocaleString()}`);
+        showCoinToast(`+${computedReward.toLocaleString()}`);
         triggerCoinFly();
       } else if (seg.id === "chance" && computedReward !== null) {
         setChanceReward(computedReward);
@@ -420,7 +444,7 @@ export default function SpinPage() {
     if (chanceReward === null) return;
     addToWallets(chanceReward);
     refreshBalances();
-    showToast(`+${chanceReward.toLocaleString()}`);
+    showCoinToast(`+${chanceReward.toLocaleString()}`);
     setChanceReward(null);
     triggerCoinFly();
   };
@@ -497,7 +521,7 @@ export default function SpinPage() {
 
         {/* ── Fast Money (primary wallet) ── */}
         <div className="relative mb-5">
-          {/* Toast */}
+          {/* Lock-hint toast */}
           <div
             className="pointer-events-none absolute -right-1 -top-5 font-mono text-sm font-black text-emerald-400 transition-all duration-300"
             style={{
@@ -531,39 +555,38 @@ export default function SpinPage() {
 
             <div className="relative">
               {/* Header row */}
-              <div className="mb-3 flex items-start justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="flex h-9 w-9 items-center justify-center rounded-xl"
+              <div className="mb-3 flex flex-col items-center text-center">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/50">
+                  Fast Money
+                </p>
+                <div className="relative inline-block">
+                  <p
+                    className={`font-mono text-2xl font-black tabular-nums leading-none transition-colors ${
+                      fmReady
+                        ? "text-emerald-400"
+                        : fmBalance > 0
+                        ? "text-emerald-400/70"
+                        : "text-white/20"
+                    }`}
+                  >
+                    {fmBalance.toLocaleString()}
+                  </p>
+                  <span
+                    className="pointer-events-none absolute top-1/2 left-full ml-2 -translate-y-1/2 rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2 py-0.5 font-mono text-xs font-bold text-emerald-400 transition-all duration-300 whitespace-nowrap"
                     style={{
-                      background: fmReady ? "rgba(52,211,153,0.2)" : "rgba(255,255,255,0.05)",
+                      opacity: coinToast ? 1 : 0,
+                      transform: `translateY(${coinToast ? "calc(-50% - 3px)" : "-50%"})`,
                     }}
                   >
-                    <span className="text-lg">⚡</span>
-                  </div>
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/50">
-                      Fast Money
-                    </p>
-                    <p
-                      className={`font-mono text-2xl font-black tabular-nums leading-none transition-colors ${
-                        fmReady
-                          ? "text-emerald-400"
-                          : fmBalance > 0
-                          ? "text-emerald-400/70"
-                          : "text-white/20"
-                      }`}
-                    >
-                      {fmBalance.toLocaleString()}
-                    </p>
-                  </div>
+                    {coinToast ?? ""}
+                  </span>
                 </div>
                 {fmReady ? (
-                  <span className="rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                  <span className="mt-2 rounded-full border border-emerald-400/40 bg-emerald-400/15 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400">
                     Tap to Play →
                   </span>
                 ) : (
-                  <span className="rounded-full border border-white/5 bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-white/20">
+                  <span className="mt-2 rounded-full border border-white/5 bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-white/20">
                     locked
                   </span>
                 )}

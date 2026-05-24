@@ -21,8 +21,20 @@ interface Question {
 }
 
 type GamePhase = "playing" | "won" | "lost";
+type RoundVariant = "regular" | "double" | "triple";
+
+const VARIANT_CONFIG: Record<RoundVariant, { correctCount: number; label: string; badgeColor: string }> = {
+  regular: { correctCount: 5, label: "Survey Says", badgeColor: "" },
+  double:  { correctCount: 3, label: "Double",      badgeColor: "text-sky-400" },
+  triple:  { correctCount: 2, label: "Triple",      badgeColor: "text-purple-400" },
+};
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function pickRandomVariant(): RoundVariant {
+  const variants: RoundVariant[] = ["regular", "double", "triple"];
+  return variants[Math.floor(Math.random() * variants.length)];
+}
 
 function pickRandomQuestion(): Question {
   const idx = Math.floor(Math.random() * questionsData.length);
@@ -115,12 +127,14 @@ function ResultScreen({
   totalCoins,
   firstTryBonus,
   revealedCount,
+  totalCount,
   homeHref,
 }: {
   phase: GamePhase;
   totalCoins: number;
   firstTryBonus: boolean;
   revealedCount: number;
+  totalCount: number;
   homeHref: string;
 }) {
   const won = phase === "won";
@@ -145,8 +159,8 @@ function ResultScreen({
 
         <p className="mb-6 text-sm text-white/40">
           {won
-            ? "You found all 5 answers!"
-            : `You revealed ${revealedCount} of 5 answers.`}
+            ? `You found all ${totalCount} answers!`
+            : `You revealed ${revealedCount} of ${totalCount} answers.`}
         </p>
 
         <div className="mb-6 rounded-lg border border-white/5 bg-white/[0.03] p-4">
@@ -186,15 +200,29 @@ function ResultScreen({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 function createSurveySaysRound() {
+  const variant = pickRandomVariant();
   const q = pickRandomQuestion();
-  return { question: q, shuffledOptions: shuffle(q.options) };
+  const { correctCount } = VARIANT_CONFIG[variant];
+
+  // Correct answers sorted by points desc (top N kept for this variant)
+  const correct = q.options
+    .filter((o) => o.is_correct)
+    .sort((a, b) => b.points - a.points)
+    .slice(0, correctCount);
+
+  const decoys = shuffle(q.options.filter((o) => !o.is_correct)).slice(0, 3);
+
+  const slicedOptions = shuffle([...correct, ...decoys]);
+  return { variant, question: q, correctOptions: correct, shuffledOptions: slicedOptions };
 }
 
 export default function SurveySaysPage() {
   const coinsAddedRef = useRef(false);
   const [homeHref, setHomeHref] = useState("/spin");
   const initialRound = useMemo(() => createSurveySaysRound(), []);
+  const [variant, setVariant] = useState<RoundVariant>(initialRound.variant);
   const [question, setQuestion] = useState<Question>(initialRound.question);
+  const [correctOptions, setCorrectOptions] = useState<Option[]>(initialRound.correctOptions);
   const [shuffledOptions, setShuffledOptions] = useState<Option[]>(initialRound.shuffledOptions);
   const [strikes, setStrikes] = useState(0);
   const [revealedIndices, setRevealedIndices] = useState<Set<number>>(new Set());
@@ -271,10 +299,6 @@ export default function SurveySaysPage() {
   };
 
   // Board: correct answers sorted by points desc (rank 1 = most points)
-  const correctOptions = question.options
-    .filter((o) => o.is_correct)
-    .sort((a, b) => b.points - a.points);
-
   const boardSlots = correctOptions.map((correctOpt) => {
     const shuffledIdx = shuffledOptions.findIndex(
       (o) => o.text === correctOpt.text
@@ -302,6 +326,7 @@ export default function SurveySaysPage() {
           totalCoins={totalCoins}
           firstTryBonus={firstTryBonus}
           revealedCount={revealedCount}
+          totalCount={correctOptions.length}
           homeHref={homeHref}
         />
       )}
@@ -319,9 +344,18 @@ export default function SurveySaysPage() {
             </svg>
             Home
           </Link>
-          <span className="font-mono text-xs uppercase tracking-widest text-amber-400/60">
-            Survey Says
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-amber-400/60">
+              Survey Says
+            </span>
+            {variant !== "regular" && (
+              <span
+                className={`font-mono text-[10px] font-black uppercase tracking-widest ${VARIANT_CONFIG[variant].badgeColor}`}
+              >
+                {VARIANT_CONFIG[variant].label}
+              </span>
+            )}
+          </div>
           <div className="font-mono text-sm font-bold text-amber-400">
             🪙 {totalCoins}
           </div>
@@ -407,7 +441,7 @@ export default function SurveySaysPage() {
 
         {/* ── Footer hint ── */}
         <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-widest text-white/20">
-          {revealedCount} / 5 found · {3 - strikes} strike{3 - strikes !== 1 ? "s" : ""} left
+          {revealedCount} / {correctOptions.length} found · {3 - strikes} strike{3 - strikes !== 1 ? "s" : ""} left
         </p>
       </div>
 
