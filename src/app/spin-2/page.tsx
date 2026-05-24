@@ -44,7 +44,7 @@ const RAW_SEGMENTS = [
   { id: "steal",  label: "Survey Steal", shortLabel: "STEAL",  emoji: "🔴", color: "#f87171", labelColor: "#2d0707", probability: 0.12, href: "/survey-steal" },
   { id: "says",   label: "Survey Says",  shortLabel: "SURVEY", emoji: "🎙️", color: "#fbbf24", labelColor: "#2d1a00", probability: 0.12, href: "/survey-says" },
   { id: "death",  label: "Sudden Death", shortLabel: "DEATH",  emoji: "💀", color: "#a78bfa", labelColor: "#1e0a3c", probability: 0.06, href: "/sudden-death" },
-  { id: "chance", label: "Chance",       shortLabel: "!",      emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.09, href: "" },
+  { id: "chance", label: "Chance",       shortLabel: "CHANCE!", emoji: "🍀", color: "#f97316", labelColor: "#2a0f00", probability: 0.09, href: "" },
 ];
 
 // Visual angles are equal for all segments — probabilities only affect the random pick
@@ -544,6 +544,10 @@ export default function Spin2Page() {
       showToast(`Win ${FM_ROUNDS_GOAL} trivia rounds to unlock Fast Money!`);
       return;
     }
+    launchFastMoney();
+  };
+
+  const launchFastMoney = () => {
     setSpinRoundsSnapshot();
     setSpinSnapshot();
     setFMStake(fmBalance);
@@ -552,6 +556,25 @@ export default function Spin2Page() {
     setFMBalanceState(0);
     setFMRoundsState(0);
     router.push(gameUrlWithReturn("/fast-money"));
+  };
+
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [fmHolding, setFmHolding] = useState(false);
+
+  const handleFmPointerDown = () => {
+    setFmHolding(true);
+    holdTimerRef.current = setTimeout(() => {
+      setFmHolding(false);
+      launchFastMoney();
+    }, 800);
+  };
+
+  const handleFmPointerUp = () => {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setFmHolding(false);
   };
 
   return (
@@ -622,14 +645,28 @@ export default function Spin2Page() {
           <button
             ref={fmRef}
             onClick={handleWalletClick}
+            onPointerDown={handleFmPointerDown}
+            onPointerUp={handleFmPointerUp}
+            onPointerLeave={handleFmPointerUp}
+            onPointerCancel={handleFmPointerUp}
             className="relative w-full overflow-hidden rounded-2xl border px-5 py-4 text-left transition-all duration-200"
             style={{
-              borderColor: fmReady ? "rgba(52,211,153,0.5)" : "rgba(52,211,153,0.12)",
+              borderColor: fmReady ? "rgba(52,211,153,0.5)" : fmHolding ? "rgba(52,211,153,0.4)" : "rgba(52,211,153,0.12)",
               background: fmReady ? "rgba(52,211,153,0.09)" : "rgba(52,211,153,0.04)",
-              boxShadow: fmReady ? "0 0 40px rgba(52,211,153,0.18)" : "none",
+              boxShadow: fmReady ? "0 0 40px rgba(52,211,153,0.18)" : fmHolding ? "0 0 24px rgba(52,211,153,0.12)" : "none",
               ...(fmBounce ? { transform: "scale(1.03)" } : {}),
             }}
           >
+            {/* Hold-to-cheat fill bar */}
+            <div
+              className="pointer-events-none absolute bottom-0 left-0 h-0.5 rounded-full"
+              style={{
+                background: "rgba(52,211,153,0.7)",
+                width: fmHolding ? "100%" : "0%",
+                transition: fmHolding ? "width 800ms linear" : "none",
+              }}
+            />
+
             {fmReady && (
               <div
                 className="pointer-events-none absolute inset-0"
@@ -878,7 +915,7 @@ export default function Spin2Page() {
           <button
             onClick={fmReady ? handleWalletClick : handleSpin}
             disabled={spinning && !fmReady}
-            className="mt-5 w-full max-w-[260px] rounded-xl py-4 text-base font-black uppercase tracking-widest transition-all duration-200 active:scale-95 disabled:cursor-not-allowed"
+            className="mt-5 w-full max-w-[340px] rounded-xl py-4 text-base font-black uppercase tracking-widest transition-all duration-200 active:scale-95 disabled:cursor-not-allowed"
             style={{
               color: fmReady ? "#000" : spinning ? "rgba(255,255,255,0.4)" : "#000",
               background: fmReady
