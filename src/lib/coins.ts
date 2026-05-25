@@ -56,6 +56,26 @@ export function clearFMStake(): void {
   localStorage.removeItem(FM_STAKE_KEY);
 }
 
+// ─── Trivia bucket cooldown (entire bucket unavailable for 1 spin after landing) ─
+
+const TRIVIA_COOLDOWN_KEY = "feud_trivia_cooldown";
+
+export function getTriviaCooldown(): number {
+  if (typeof window === "undefined") return 0;
+  return parseInt(localStorage.getItem(TRIVIA_COOLDOWN_KEY) ?? "0", 10);
+}
+
+export function decrementTriviaCooldown(): void {
+  if (typeof window === "undefined") return;
+  const next = Math.max(0, getTriviaCooldown() - 1);
+  localStorage.setItem(TRIVIA_COOLDOWN_KEY, String(next));
+}
+
+export function resetTriviaCooldown(): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(TRIVIA_COOLDOWN_KEY, "1");
+}
+
 // ─── Match & Win cooldown (unavailable for 7 spins after landing on it) ──────
 
 const MATCH_COOLDOWN_KEY = "feud_match_cooldown";

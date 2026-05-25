@@ -19,6 +19,9 @@ import {
   getMatchCooldown,
   decrementMatchCooldown,
   resetMatchCooldown,
+  getTriviaCooldown,
+  decrementTriviaCooldown,
+  resetTriviaCooldown,
 } from "@/lib/coins";
 import { gameUrlWithReturn } from "@/lib/routes";
 
@@ -86,9 +89,10 @@ function slicePath(startAngle: number, sweepAngle: number): string {
 
 const TRIVIA_IDS = new Set(["steal", "says", "death"]);
 
-function pickSegment(forceTrivia = false, matchOnCooldown = false): Segment {
+function pickSegment(forceTrivia = false, matchOnCooldown = false, triviaOnCooldown = false): Segment {
   let pool = forceTrivia ? SEGMENTS.filter((s) => TRIVIA_IDS.has(s.id)) : SEGMENTS;
   if (matchOnCooldown) pool = pool.filter((s) => s.id !== "match");
+  if (triviaOnCooldown) pool = pool.filter((s) => !TRIVIA_IDS.has(s.id));
   const total = pool.reduce((sum, s) => sum + s.probability, 0);
   let r = Math.random() * total;
   for (const seg of pool) {
@@ -460,7 +464,7 @@ export default function Spin2Page() {
   const handleSpin = () => {
     if (spinning || showReveal || chanceReward !== null || fmReady) return;
 
-    const seg = pickSegment(getNonTriviaStreak() >= 3, getMatchCooldown() > 0);
+    const seg = pickSegment(getNonTriviaStreak() >= 3 && getTriviaCooldown() === 0, getMatchCooldown() > 0, getTriviaCooldown() > 0);
 
     // Local angle we want under the pointer (midpoint ± 30% of wedge width)
     const jitter = (Math.random() * 0.6 - 0.3) * seg.sweepAngle;
@@ -508,6 +512,12 @@ export default function Spin2Page() {
         resetMatchCooldown();
       } else {
         decrementMatchCooldown();
+      }
+      // Trivia bucket cooldown
+      if (TRIVIA_IDS.has(seg.id)) {
+        resetTriviaCooldown();
+      } else {
+        decrementTriviaCooldown();
       }
       if (seg.id === "coins" && computedReward !== null) {
         addToWallets(computedReward);
