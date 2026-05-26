@@ -17,6 +17,13 @@ const ENTRY_POINTS = [
     accent: "#60a5fa",
     number: "02",
   },
+  {
+    label: "Fast Money",
+    sub: "Variations",
+    href: "/fast-money-variations",
+    accent: "#a78bfa",
+    number: "03",
+  },
 ] as const;
 
 export default function HomePage() {
