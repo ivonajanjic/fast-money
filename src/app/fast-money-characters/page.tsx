@@ -315,8 +315,11 @@ function QuizSection({
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Timer */}
+      {/* Timer + counter */}
       <div className="flex items-center gap-3">
+        <span className="font-mono text-[10px] tabular-nums text-white/30">
+          {questionIndex + 1} / {total}
+        </span>
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
           <div
             className="h-full rounded-full transition-all duration-1000"
